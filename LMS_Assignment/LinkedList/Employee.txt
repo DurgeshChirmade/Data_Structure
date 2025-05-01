@@ -1,0 +1,219 @@
+package com.singly;
+
+public class Nodes {
+
+	private Employee e1;
+	private Nodes next;
+
+	public Nodes() {
+		this.e1 = null;
+		this.next = null;
+	}
+
+	public Employee getE1() {
+		return e1;
+	}
+
+	public void setE1(Employee e1) {
+		this.e1 = e1;
+	}
+
+	public Nodes getNext() {
+		return next;
+	}
+
+	public void setNext(Nodes next) {
+		this.next = next;
+	}
+
+}
+
+package com.singly;
+
+public class Employee {
+
+	private int empid;
+	private String ename;
+	private float salary;
+	
+	public Employee() {
+		this.empid = 0;
+		this.ename = null;
+		this.salary = 0.0f;
+	}
+	
+	public int getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+	public String getEname() {
+		return ename;
+	}
+
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+
+	public float getSalary() {
+		return salary;
+	}
+
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return "Nodes [empid=" + empid + ", ename=" + ename + ", salary=" + salary + "]";
+	}
+}
+
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class EmployeeLinkedList {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public Nodes create() throws Exception {
+
+		Nodes first = new Nodes();
+
+		System.out.print("Enter employee id : ");
+		int eid = Integer.parseInt(br.readLine());
+
+		System.out.print("Enter employee name : ");
+		String name = br.readLine();
+
+		System.out.print("Enter employee salary : ");
+		float sal = Float.parseFloat(br.readLine());
+
+		Employee e = new Employee();
+		e.setEmpid(eid);
+		e.setEname(name);
+		e.setSalary(sal);
+		first.setE1(e);
+		first.setNext(null);
+
+		return first;
+
+	}
+
+	public void display(Nodes first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		Nodes temp;
+		for (temp = first; temp != null; temp = temp.getNext()) {
+			Employee e = temp.getE1();
+	        System.out.print("[ID: " + e.getEmpid() + ", Name: " + e.getEname() + ", Salary: " + e.getSalary() + "]");
+	        if(temp!=null) {
+				System.out.print(" => ");
+			}
+		}
+	}
+
+	public Nodes addAtPosition(Nodes first) throws Exception {
+		
+		Nodes temp = new Nodes();
+		
+		System.out.print("Enter employee id : ");
+		int eid = Integer.parseInt(br.readLine());
+
+		System.out.print("Enter employee name : ");
+		String name = br.readLine();
+
+		System.out.print("Enter employee salary : ");
+		float sal = Float.parseFloat(br.readLine());
+
+		Employee e = new Employee();
+		e.setEmpid(eid);
+		e.setEname(name);
+		e.setSalary(sal);
+		
+		temp.setE1(e);
+		temp.setNext(null);
+	
+		// Case 1: Insert at the first position
+		if(first==null || eid<first.getE1().getEmpid()) {
+			temp.setNext(first);
+			return temp; //new node become head
+		}
+		
+		Nodes start=first;
+		while(start.getNext() != null && start.getNext().getE1().getEmpid() < eid) {
+			start=start.getNext();
+		}
+		
+		
+		//Insert node at the desired position
+		temp.setNext(start.getNext());
+		start.setNext(temp);
+		
+		return first;
+		
+	}
+
+}
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class EmployeeMain {
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		EmployeeLinkedList el = new EmployeeLinkedList();
+
+		int choice = 0;
+		Nodes head = null;
+
+		while (true) {
+
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:Create Node" + "\n2:Add at position"
+					+ "\n5:Display Linked List"+ "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				head = el.create();
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				
+				head = el.addAtPosition(head);
+				break;
+
+			case 5:
+				System.out.println("Linked List Display : ");
+				el.display(head);
+				break;
+
+			case 0:
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+			}
+		}
+
+	}
+
+}

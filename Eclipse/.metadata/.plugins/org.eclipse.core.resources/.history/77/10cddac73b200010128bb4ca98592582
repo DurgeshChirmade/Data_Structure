@@ -1,0 +1,24 @@
+package com.graph;
+
+public class UndirectedGraphBFS {
+
+	private int Q[];
+	private int front, rear;
+	private int a[][];
+	private int nov;
+	private int noe;
+	private int visited[];
+	private int size;
+
+	public UndirectedGraphBFS() {
+		this.size = 0;
+		this.a = new int[size][size];
+		this.nov = 0;
+		this.noe = 0;
+		front = rear = -1;
+		this.visited = new int[size];
+	}
+	
+	
+
+}

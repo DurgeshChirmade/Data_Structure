@@ -1,0 +1,35 @@
+package c2stack;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class C2StackCharMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		C2StackChar cs = new C2StackChar();
+
+		System.out.print("Enter your string : ");
+		String str = br.readLine();
+
+		int size = str.length();
+
+		cs.initStack(size * 2);
+
+		for (int i = 0; i < size; i++) {
+			cs.push1(str.charAt(i));
+			cs.push2(str.charAt(size - i));
+		}
+
+		System.out.println("Display stack : ");
+
+		cs.display1();
+		System.out.println("\n--------------------------------------------------\n");
+		cs.display2();
+		System.out.println("\n--------------------------------------------------\n");
+
+	}
+
+}

@@ -1,0 +1,54 @@
+package com.hashing;
+
+import java.util.Arrays;
+
+public class HashingArray {
+
+	private int[] hashtable;
+	private int size;
+
+	public int hashkey(int val) {
+		return val % size;
+	}
+
+	public void createhash(int size) {
+		this.size = size;
+		this.hashtable = new int[size];
+		for (int i = 0; i < size; i++) {
+			hashtable[i] = -1;
+		}
+	}
+
+	public void addKey(int val) {
+		int key = hashkey(val);
+		if (hashtable[key] == -1) {
+			hashtable[key] = val;
+		} else {
+			int i;
+			for (i = key + 1; i != key && hashtable[i] != -1; i = (i + 1) % size)
+				;
+			hashtable[i] = key;
+		}
+	}
+
+	public void search(int val) {
+		int key = hashkey(val);
+
+		if (hashtable[key] == val) {
+			hashtable[key] = key;
+		} else {
+			int i;
+			for (i = key + 1; i != key && hashtable[i] != key; i = (i + 1) % size)
+				;
+			if (hashtable[i] == key) {
+				System.out.println("Element is found" + i);
+			}
+			System.out.println("Element is not found");
+		}
+	}
+
+	public void display() {
+		System.out.println(Arrays.toString(hashtable));
+//			System.out.println(" " + hashtable[i]);
+	}
+}

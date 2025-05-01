@@ -1,0 +1,84 @@
+package c2stack;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class C2StackMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		C2Stack cs = new C2Stack();
+
+		int option, value;
+		int size = 0;
+
+		while (true) {
+			System.out.println("\n************** MENU ***************");
+			System.out.println(
+					"\n1:Start" + "\n2:Push1" + "\n3:Push2" + "\n4:Pop1" + "\n5:Pop2" + "\n6:Display" + "\n0:EXIT");
+			System.out.print("\nEnter your choice : ");
+			option = Integer.parseInt(br.readLine());
+
+			switch (option) {
+			case 1:
+				System.out.print("Enter size of stack :: ");
+				size = Integer.parseInt(br.readLine());
+				cs.initStack(size);
+				System.out.println("\nNew Stack instantiated.");
+				break;
+
+			case 2:
+				System.out.print("Enter your data : ");
+				value = Integer.parseInt(br.readLine());
+
+				cs.push1(value);
+				break;
+
+			case 3:
+				System.out.print("Enter your data : ");
+				value = Integer.parseInt(br.readLine());
+
+				cs.push2(value);
+				break;
+
+			case 4:
+				value = cs.pop1();
+
+				if (value != -1) {
+					System.out.println("\nPopped : " + value);
+
+				}
+				break;
+
+			case 5:
+				value = cs.pop2();
+
+				if (value != -1) {
+					System.out.println("\nPopped : " + value);
+
+				} else {
+					System.out.println("\nStack is Empty.\n");
+				}
+				break;
+
+			case 6:
+				System.out.println("\n-------------------------------\n");
+				cs.display1();
+				System.out.println("\n-------------------------------\n");
+				cs.display2();
+				System.out.println("\n-------------------------------\n");
+				break;
+			case 0:
+				System.exit(0);
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+
+		}
+
+	}
+
+}

@@ -1,0 +1,196 @@
+Node.java
+----------
+package com.dynamic;
+
+public class Node {
+
+	private int data;
+	private Node next;
+
+	public Node() {
+		this.data = 0;
+		this.next = null;
+	}
+
+	public int getData() {
+		return data;
+	}
+
+	public void setData(int data) {
+		this.data = data;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+	@Override
+	public String toString() {
+		return "Node [data=" + data + ", next=" + next + "]";
+	}
+
+}
+
+
+DynamicStack.java
+-------------------
+//Dynamic Stack Using Singly Linked List
+package com.dynamic;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DynamicStack {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	private Node top = null;
+
+	public boolean isEmpty() {
+
+		if (top == null) {
+			return true;
+		}
+		return false;
+	}
+
+	public void push(int data) {
+
+		Node temp = new Node();
+
+		temp.setData(data);
+
+		if (top == null) {
+			top = temp;
+		} else {
+			temp.setNext(top);
+			top = temp;
+		}
+
+		System.out.println("Data is pushed successfully.");
+
+	}
+
+	public int pop() {
+		Node temp = new Node();
+		int data = 0;
+
+		if (!isEmpty()) {
+			data = top.getData();
+			temp = top;
+			top = top.getNext();
+			temp.setNext(null);
+		}
+		return data;
+	}
+
+	public int peek() {
+
+		if (!isEmpty()) {
+			return top.getData();
+		}
+		return 0;
+	}
+
+	public void display() {
+		if (top == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		for (Node temp = top; temp != null; temp = temp.getNext()) {
+			if (temp.getNext() == null) {
+				System.out.println(temp.getData());
+			} else {
+				System.out.print(temp.getData() + " => ");
+			}
+		}
+	}
+
+	public Node eraseAll() {
+		Node temp = top;
+		while (top != null) {
+			top = top.getNext();
+			temp.setNext(null);
+			temp = top;
+		}
+		return top;
+	}
+
+}
+
+DynamicStackMain.java
+-----------------------
+//Dynamic Stack Using Singly Linked List
+package com.dynamic;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DynamicStackMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		DynamicStack d = new DynamicStack();
+
+		int choice = 0;
+
+		while (true) {
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:push data in stack" + "\n2:pop data from stack" + "\n3.peek data from stack"
+					+ "\n4:Display stack" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("Enter your data to add in stack : ");
+				int data = Integer.parseInt(br.readLine());
+
+				d.push(data);
+				break;
+
+			case 2:
+				int value = d.pop();
+				if (value == 0) {
+					System.out.println("\n STACK is EMPTY.\n");
+				} else {
+					System.out.println("Popped Element : " + value);
+				}
+				break;
+
+			case 3:
+				int val = d.peek();
+				if (val == 0) {
+					System.out.println("\n STACK is EMPTY.\n");
+				} else {
+					System.out.println("Peek Element : " + val);
+				}
+				break;
+
+			case 4:
+				d.display();
+				break;
+
+			case 0:
+				if (d.eraseAll() == null) {
+					System.out.println("Linked List is clear...");
+				}
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+		}
+
+	}
+
+}

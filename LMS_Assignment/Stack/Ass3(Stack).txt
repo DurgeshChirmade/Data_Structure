@@ -1,0 +1,158 @@
+package infixtopostfix;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class PTAB {
+	private char opr;
+	private int priority;
+
+	public PTAB(char opr, int priority) {
+		this.opr = opr;
+		this.priority = priority;
+	}
+
+	public char getOpr() {
+		return opr;
+	}
+
+	public void setOpr(char opr) {
+		this.opr = opr;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+}
+
+class StackStatic {
+
+	private int size;
+	private char[] stack;
+	private int top;
+
+	public StackStatic(int size) {
+		this.size = size;
+		this.stack = new char[this.size];
+		this.top = -1;
+	}
+
+	public boolean isFull() {
+		if (top == size - 1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isEmpty() {
+		if (top == -1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void push(char value) {
+		if (!isFull()) {
+			stack[++top] = value;
+		} else {
+			System.out.println("\n Stack is overflow.....");
+		}
+	}
+
+	public char peek() {
+		if (!isEmpty()) {
+			return stack[top];
+		}
+		System.out.println("\nStack is empty - cannot peek.");
+		return '\0';
+	}
+
+	public char pop() {
+		char value = '\0';
+		if (!isEmpty()) {
+			value = stack[top--];
+			return value;
+		}
+		System.out.println("\nStack is underflow.....");
+		;
+		return value;
+	}
+
+}
+
+public class InfixToPostfix {
+
+	private static PTAB[] optab = { new PTAB('$', 3), new PTAB('^', 3), new PTAB('*', 2), new PTAB('/', 2),
+			new PTAB('%', 2), new PTAB('+', 1), new PTAB('-', 1) };
+
+	public static int getPriority(char op) {
+
+		for (int i = 0; i < optab.length; i++) {
+			if (op == optab[i].getOpr()) {
+				return optab[i].getPriority();
+			}
+		}
+		return -1;
+	}
+
+	public static String postfix(String str) {
+
+		StackStatic stk = new StackStatic(str.length());
+
+		String postfix = "";
+
+		for (int i = 0; i < str.length(); i++) {
+			char ch = str.charAt(i);
+
+			if (Character.isLetterOrDigit(ch)) {
+				postfix += ch;
+			} else if (ch == '(') {
+				stk.push(ch);
+			} else if (ch == ')') {
+				while (!stk.isEmpty() && stk.peek() != '(') {
+					postfix += stk.pop();
+				}
+				if (!stk.isEmpty() && stk.peek() == '(') {
+					stk.pop(); // Pop the opening parenthesis
+				} else {
+					System.out.println("Error: Unmatched closing parenthesis.");
+					return "Error";
+				}
+			} else { // operator
+				while (!stk.isEmpty() && stk.peek() != '(' && getPriority(stk.peek()) >= getPriority(ch)) {
+					postfix += stk.pop();
+				}
+				stk.push(ch);
+			}
+		}
+
+		while (!stk.isEmpty()) {
+			if (stk.peek() == '(') {
+				System.out.println("Error: Unmatched opening parenthesis.");
+				return "Error";
+			}
+			postfix += stk.pop();
+		}
+
+		return postfix;
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		System.out.print("Enter your infix expression : ");
+		String exp = br.readLine();
+
+		String postfix = postfix(exp);
+		System.out.println("Postfix Expression : " + postfix);
+	}
+
+}

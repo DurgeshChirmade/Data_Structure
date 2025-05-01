@@ -1,0 +1,44 @@
+package com.sort;
+
+public class EmployeeSort {
+
+	public static void selectionSort(Employee[] arr) {
+		int n = arr.length;
+
+		for (int i = 0; i < n; i++) {
+			int maxIdx = i;
+			for (int j = i + 1; j < n; j++) {
+				if (arr[j].getSalary() > arr[maxIdx].getSalary()) {
+					maxIdx = j;
+				}
+			}
+
+			// Swap
+			Employee temp = arr[i];
+			arr[i] = arr[maxIdx];
+			arr[maxIdx] = temp;
+		}
+	}
+
+	public static void main(String[] args) {
+		Employee[] employees = new Employee[5];
+		employees[0] = new Employee(101, "Alice", 55000);
+		employees[1] = new Employee(102, "Bob", 72000);
+		employees[2] = new Employee(103, "Charlie", 48000);
+		employees[3] = new Employee(104, "David", 88000);
+		employees[4] = new Employee(105, "Eve", 64000);
+
+		System.out.println("Before Sorting:");
+		for (Employee e : employees) {
+			System.out.println(e);
+		}
+
+		selectionSort(employees);
+
+		System.out.println("\nAfter Sorting (Descending by Salary):");
+		for (Employee e : employees) {
+			System.out.println(e);
+		}
+	}
+
+}

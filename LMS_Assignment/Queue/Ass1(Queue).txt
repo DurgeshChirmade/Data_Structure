@@ -1,0 +1,133 @@
+package com.linear;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class QueueStatic {
+
+	private int size;
+	private int[] que;
+	private int front;
+	private int rear;
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public QueueStatic() {
+		size = 0;
+		que = new int[size];
+		front = rear = -1;
+	}
+
+	public void initQueue() throws Exception {
+		System.out.print("Enter the size of queue : ");
+		size = Integer.parseInt(br.readLine());
+
+		this.que = new int[size];
+		front = rear = -1;
+	}
+
+	public boolean isFull() {
+		if (rear == size - 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isEmpty() {
+		if (front == rear) {
+			return true;
+		}
+		return false;
+	}
+
+	public void enQueue(int value) {
+		if (!isFull()) {
+			que[++rear] = value;
+		} else {
+			System.out.println("Queue is full already.");
+		}
+	}
+
+	public int deQueue() {
+		if (!isEmpty()) {
+			return que[++front];
+		} else {
+			System.out.println("Queue is empty already.");
+		}
+		return -1;
+	}
+	
+	public void display() {
+		
+		if(!isEmpty()) {
+			for(int i=front+1;i<=rear;i++) {
+				System.out.print("\n"+que[i]);
+			}
+		}
+		else {
+			System.out.println("Queue is empty already.");
+		}
+	}
+}
+
+
+package com.linear;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class QueueMain {
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		QueueStatic qs = new QueueStatic();
+
+		int option, value;
+
+		while (true) {
+			System.out.println("\n************** MENU ***************");
+			System.out.println("\n1:Start" + "\n2:EnQueue" + "\n3:DeQueue" + "\n4:Display" + "\n0:EXIT");
+			System.out.print("\nEnter your choice : ");
+			option = Integer.parseInt(br.readLine());
+
+			switch (option) {
+			case 1:
+				qs.initQueue();
+				System.out.println("\nNew Stack instantiated.");
+				break;
+
+			case 2:
+				System.out.print("Enter your data : ");
+				value = Integer.parseInt(br.readLine());
+
+				qs.enQueue(value);
+				break;
+
+			case 3:
+				value = qs.deQueue();
+
+				if (value != -1) {
+					System.out.println("\nPopped : " + value);
+
+				}
+				break;
+
+			case 4:
+				System.out.println("\n-------------------------------\n");
+				qs.display();
+				System.out.println("\n-------------------------------\n");
+				break;
+			case 0:
+				System.exit(0);
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+
+		}
+
+	}
+
+}

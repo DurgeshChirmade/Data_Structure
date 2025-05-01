@@ -1,0 +1,58 @@
+package com.singly;
+
+class Node {
+	char data;
+	Node next;
+
+	Node(char data) {
+		this.data = data;
+		this.next = null;
+	}
+}
+
+public class Assignment {
+
+	public static Node createAZList() {
+		Node head = null, tail = null;
+
+		for (char c = 'A'; c <= 'Z'; c += 2) {
+			// First character
+			Node first = new Node(c);
+
+			// Second character (c + 1) only if within A-Z
+			Node second = null;
+			if (c + 1 <= 'Z') {
+				second = new Node((char) (c + 1));
+				first.next = second;
+			}
+
+			// Attach to main list
+			if (head == null) {
+				head = first;
+				tail = (second != null) ? second : first;
+			} else {
+				tail.next = first;
+				tail = (second != null) ? second : first;
+			}
+		}
+
+		return head;
+	}
+
+	public static void display(Node head) {
+		Node temp = head;
+		while (temp != null) {
+			System.out.print(temp.data);
+			if (temp.next != null) {
+				System.out.print(" -> ");
+			}
+			temp = temp.next;
+		}
+		System.out.println();
+	}
+
+	public static void main(String[] args) {
+		Node head = createAZList();
+		display(head);
+	}
+}

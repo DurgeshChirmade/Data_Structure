@@ -1,0 +1,98 @@
+package com.doubly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DoublyLinkedListMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		DoublyLinkedList dl = new DoublyLinkedList();
+
+		int choice = 0;
+		Node head = null;
+
+		while (true) {
+
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:Create Node" + "\n2:Add at start" + "\n3:Add at last" + "\n4:Add at value"
+					+ "\n5:Add at position" + "\n6:delete at start" + "\n7:delete at last" + "\n8:delete at position"
+					+ "\n9.delete by value" + "\n10:Display Linked List" + "\n11:Count of nodes" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("How many nodes you want to create : ");
+				int n = Integer.parseInt(br.readLine());
+				head = dl.create(n);
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				head = dl.addAtStart(head);
+				break;
+
+			case 3:
+				head = dl.addAtEnd(head);
+				break;
+
+			case 4:
+				System.out.print("Enter at which value you want to add new node : ");
+				int key = Integer.parseInt(br.readLine());
+
+				head = dl.addByValue(head, key);
+				break;
+
+			case 5:
+				System.out.print("Enter which position you want to add new node : ");
+				int pos = Integer.parseInt(br.readLine());
+
+				head = dl.addAtposition(head, pos);
+				break;
+
+			case 6:
+				head = dl.DeleteAtStart(head);
+				break;
+
+			case 7:
+				head = dl.DeleteAtEnd(head);
+				break;
+
+			case 8:
+				System.out.print("Enter which position you want to delete node : ");
+				int p = Integer.parseInt(br.readLine());
+
+				head = dl.deleteAtPosition(head, p);
+				break;
+
+			case 9:
+				System.out.print("Enter which value you want to delete node : ");
+				int data = Integer.parseInt(br.readLine());
+
+				head = dl.deleteAtValue(head, data);
+				break;
+
+			case 10:
+				System.out.println("Linked List Display : ");
+				dl.display(head);
+				break;
+
+			case 11:
+				int count = dl.countNodes(head);
+				System.out.print("Count of Nodes : " + count);
+				break;
+
+			case 0:
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+			}
+		}
+	}
+
+}

@@ -1,0 +1,561 @@
+Reverse.java
+--------------
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class ReverseLinkedList {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public Node create(int n) throws Exception {
+
+		if (n <= 0) {
+			return null;
+		}
+
+		// Initialize the first node
+		Node first = new Node();
+
+		System.out.print("Enter Data :: ");
+		int data = Integer.parseInt(br.readLine());
+
+		first.setData(data);
+
+		// next node/last node
+		Node last = first;
+
+		for (int i = 2; i <= n; i++) {
+			System.out.print("Enter Data :: ");
+			data = Integer.parseInt(br.readLine());
+
+			// temporary node
+			Node temp = new Node();
+
+			temp.setData(data);
+
+			last.setNext(temp); // store the reference of newnode t in l.next section.
+			last = temp; // change position of l to the next node
+		}
+
+		return first;
+	}
+
+	public void display(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		for (Node temp = first; temp != null; temp = temp.getNext()) {
+			if (temp.getNext() == null) {
+				System.out.println(temp.getData());
+			} else {
+				System.out.print(temp.getData() + " => ");
+			}
+		}
+	}
+
+	public Node eraseAll(Node first) {
+		Node temp = first;
+		while (first != null) {
+			first = first.getNext();
+			temp.setNext(null);
+			temp = first;
+		}
+		return first;
+	}
+
+	public Node reverseLinkedList(Node first) {
+		Node prev = null, current = first, next;
+		while (current != null) {
+			next = current.getNext();
+			current.setNext(prev);
+			prev = current;
+			current = next;
+		}
+		return prev;
+	}
+
+	public void printReverse(Node first) {
+
+		Stack<Integer> stk = new Stack<Integer>();
+
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		for (Node temp = first; temp != null; temp = temp.getNext()) {
+			stk.push(temp.getData());
+		}
+
+		System.out.print("Reverse Linked list : ");
+		while (!stk.isEmpty()) {
+			System.out.print(stk.pop() + " ");
+		}
+	}
+
+}
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class ReverseMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		ReverseLinkedList r = new ReverseLinkedList();
+
+		int choice = 0;
+		Node head = null;
+
+		while (true) {
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println(
+					"1:Create Node" + "\n2:reverse Linked List" + "\n3:print reverse linked list" + "\n4:Display Linked List" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("How many nodes you want to create : ");
+				int n = Integer.parseInt(br.readLine());
+				head = r.create(n);
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				head = r.reverseLinkedList(head);
+				break;
+
+			case 3:
+				r.printReverse(head);
+				break;
+				
+			case 4:
+				r.display(head);
+				break;
+
+			case 0:
+				head = r.eraseAll(head);
+				if (head == null) {
+					System.out.println("Linked List is clear...");
+				}
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+		}
+
+	}
+
+}
+
+Update.java
+-------------
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class UpdateLinkedList {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public Node create(int n) throws Exception {
+
+		if (n <= 0) {
+			return null;
+		}
+
+		// Initialize the first node
+		Node first = new Node();
+
+		System.out.print("Enter Data :: ");
+		int data = Integer.parseInt(br.readLine());
+
+		first.setData(data);
+
+		// next node/last node
+		Node last = first;
+
+		for (int i = 2; i <= n; i++) {
+			System.out.print("Enter Data :: ");
+			data = Integer.parseInt(br.readLine());
+
+			// temporary node
+			Node temp = new Node();
+
+			temp.setData(data);
+
+			last.setNext(temp); // store the reference of newnode t in l.next section.
+			last = temp; // change position of l to the next node
+		}
+
+		return first;
+	}
+
+	public void display(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		for (Node temp = first; temp != null; temp = temp.getNext()) {
+			if (temp.getNext() == null) {
+				System.out.println(temp.getData());
+			} else {
+				System.out.print(temp.getData() + " => ");
+			}
+		}
+	}
+
+	public Node eraseAll(Node first) {
+		Node temp = first;
+		while (first != null) {
+			first = first.getNext();
+			temp.setNext(null);
+			temp = first;
+		}
+		return first;
+	}
+
+	public int replaceLinkedList(Node first, int key, int rep) {
+		int cnt = 0;
+
+		for (Node temp = first; temp != null; temp = temp.getNext()) {
+			if (temp.getData() == key) {
+				temp.setData(rep);
+				cnt++;
+			}
+		}
+		return cnt;
+	}
+}
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class UpdateMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		UpdateLinkedList u = new UpdateLinkedList();
+
+		int choice = 0;
+		Node head = null;
+
+		while (true) {
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:Create Node" + "\n2:update Linked List" + "\n3:Display Linked List" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("How many nodes you want to create : ");
+				int n = Integer.parseInt(br.readLine());
+				head = u.create(n);
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				System.out.print("Enter key which number you want to repalce : ");
+				int key = Integer.parseInt(br.readLine());
+
+				System.out.print("Enter rep which number you want to replace : ");
+				int rep = Integer.parseInt(br.readLine());
+
+				int cnt = u.replaceLinkedList(head, key, rep);
+				System.out.println("Count : " + cnt);
+				break;
+				
+			case 3:
+				u.display(head);
+				break;
+
+			case 0:
+				head = u.eraseAll(head);
+				if (head == null) {
+					System.out.println("Linked List is clear...");
+				}
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+		}
+
+	}
+
+}
+
+Delete.java
+-------------
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DeleteNode {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public Node create(int n) throws Exception {
+
+		if (n <= 0) {
+			return null;
+		}
+
+		// Initialize the first node
+		Node first = new Node();
+
+		System.out.print("Enter Data :: ");
+		int data = Integer.parseInt(br.readLine());
+
+		first.setData(data);
+
+		// next node/last node
+		Node last = first;
+
+		for (int i = 2; i <= n; i++) {
+			System.out.print("Enter Data :: ");
+			data = Integer.parseInt(br.readLine());
+
+			// temporary node
+			Node temp = new Node();
+
+			temp.setData(data);
+
+			last.setNext(temp); // store the reference of newnode t in l.next section.
+			last = temp; // change position of l to the next node
+		}
+
+		return first;
+	}
+
+	public void display(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		for (Node temp = first; temp != null; temp = temp.getNext()) {
+			if (temp.getNext() == null) {
+				System.out.println(temp.getData());
+			} else {
+				System.out.print(temp.getData() + " => ");
+			}
+		}
+	}
+
+	public Node eraseAll(Node first) {
+		Node temp = first;
+		while (first != null) {
+			first = first.getNext();
+			temp.setNext(null);
+			temp = first;
+		}
+		return first;
+	}
+
+	public Node deleteAtStart(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is already empty.");
+			return null;
+		}
+
+		// temporary node
+		Node temp = first;
+
+		System.out.println("Deleted Node : " + temp.getData());
+
+		first = first.getNext();
+		temp.setNext(null);
+		// free(temp)
+		
+		return first;
+	}
+	
+	public Node deleteAtEnd(Node first) {
+		if(first==null) {
+			System.out.println("Linked List is empty already.");
+			return null;
+		}
+		
+		if(first.getNext()==null) {
+			System.out.println("Deleted Data : "+first.getData());
+			first=null;
+			return first;
+		}
+		
+		Node temp,slast=null;
+		for(temp=first;temp.getNext()!=null;temp=temp.getNext()) {
+			slast=temp; //s keeps track of second last node // it will travel to the second last node
+		}
+		
+		System.out.println("Deleted Node : "+temp.getData());
+		slast.setNext(null);
+		temp=null; //Remove reference to the last node
+		
+		return first;
+	}
+	
+	public Node deleteAtPosition(Node first,int pos) {
+		if(first==null || pos<0) {
+			System.out.println("Linked List is empty already.");
+			return null;
+		}
+		
+		//delete at first
+		if(pos==1) {
+			System.out.println("Deleted Node : "+first.getData());
+			first=first.getNext();
+			return first;
+		}
+		
+		Node start=first;
+		for(int i=1;i<pos-1 && start!=null;i++) {
+			start=start.getNext();
+		}
+		
+		if(start==null || start.getNext()==null) {
+			System.out.println("Invalid Position...");
+			return first;
+		}
+		
+		System.out.println("Deleted Node : "+start.getNext().getData());
+		start.setNext(start.getNext().getNext());
+		
+		return first;
+	}
+	
+	//correct this method to delete by value
+	public Node deleteAtValue(Node first,int key) {
+		if(first==null) {
+			System.out.println("Linked List is empty already.");
+			return null;
+		}
+		
+		//delete value at first
+		if(first.getData()==key) {
+			System.out.println("Deleted Node : "+first.getData());
+			first=first.getNext();
+			return first;
+		}
+		
+		Node current = first;
+	    Node previous = null;
+
+	    // Traverse to find the node to delete, keeping track of the previous node
+	    while (current != null && current.getData() != key) {
+	        previous = current;
+	        current = current.getNext();
+	    }
+
+	    // Node not found
+	    if (current == null) {
+	        System.out.println("Node not found...");
+	        return first;
+	    }
+
+	    // Node found, now delete it
+	    System.out.println("Deleted Node : " + current.getData());
+	    previous.setNext(current.getNext());
+		
+		return first;
+	}
+}
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DeleteNodeMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		DeleteNode d = new DeleteNode();
+
+		int choice = 0;
+		Node head = null;
+
+		while (true) {
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:Create Node" + "\n2:delete at start" + "\n3:delete at last" + "\n4:delete at position"
+					+ "\n5.delete by value" + "\n6:Display Linked List" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("How many nodes you want to create : ");
+				int n = Integer.parseInt(br.readLine());
+				head = d.create(n);
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				head = d.deleteAtStart(head);
+				break;
+
+			case 3:
+				head = d.deleteAtEnd(head);
+				break;
+
+			case 4:
+				System.out.print("Enter which position you want to delete node : ");
+				int pos = Integer.parseInt(br.readLine());
+
+				head = d.deleteAtPosition(head, pos);
+				break;
+
+			case 5:
+				System.out.print("Enter which value you want to delete node : ");
+				int data = Integer.parseInt(br.readLine());
+
+				head = d.deleteAtValue(head, data);
+				break;
+
+			case 6:
+				System.out.println("Linked List Display : ");
+				d.display(head);
+				break;
+
+			case 0:
+				head = d.eraseAll(head);
+				if (head == null) {
+					System.out.println("Linked List is clear...");
+				}
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+		}
+
+	}
+
+}
+

@@ -1,0 +1,204 @@
+Node.java
+-----------
+package com.dynamic;
+
+public class Node {
+	int data;
+	Node next;
+
+	public Node() {
+
+		this.data = 0;
+		this.next = null;
+	}
+
+	public int getData() {
+		return data;
+	}
+
+	public void setData(int data) {
+		this.data = data;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+	@Override
+	public String toString() {
+		return "Node [data=" + data + ", next=" + next + "]";
+	}
+
+}
+
+DynamicQueue.java
+------------------
+package com.dynamic;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DynamicQueue {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	private Node front = null;
+	private Node rear = null;
+
+	public boolean isEmpty() {
+		if (front == null) {
+			return true;
+		}
+		return false;
+	}
+
+	public void enQueue(int data) {
+
+		Node temp = new Node();
+
+		temp.setData(data);
+		temp.setNext(null);
+
+		if (rear == null) {
+			rear = temp;
+			front = temp;
+		} else {
+			rear.setNext(temp);
+			rear = rear.getNext();
+		}
+	}
+
+	public int deQueue() {
+
+		int value = 0;
+
+		Node temp = new Node();
+
+		if (!isEmpty()) {
+			value = front.getData();
+
+			if (front.getNext() == null) {
+				front = rear = null;
+			}
+			temp = front;
+			front = front.getNext();
+			temp.setNext(null);
+		}
+		return value;
+	}
+
+	public int peek() {
+
+		int value = 0;
+
+		if (!isEmpty()) {
+			value = front.getData();
+		}
+		return value;
+	}
+
+	public void display() {
+
+		System.out.println("Queue : ");
+
+		for (Node temp = front; temp != null; temp = temp.getNext()) {
+			if (temp.getNext() == null) {
+				System.out.println(temp.getData());
+			} else {
+				System.out.print(temp.getData() + " => ");
+			}
+
+		}
+		System.out.println();
+	}
+
+	public Node eraseAll() {
+		Node current = front;
+		Node nextNode;
+
+		while (current != null) {
+			nextNode = current.getNext();
+			current.setNext(null); // Detach the current node
+			current = nextNode;
+		}
+
+		front = null;
+		rear = null;
+		return front;
+	}
+
+}
+
+DynamicQueueMain.java
+----------------------
+package com.dynamic;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DynamicQueueMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		DynamicQueue d = new DynamicQueue();
+
+		int option;
+
+		while (true) {
+			System.out.println("\n************** MENU ***************");
+			System.out.println(
+					"\n1:EnQueue element" + "\n2:DeQueue element" + "\n3:Peek element" + "\n4:Display" + "\n0:EXIT");
+			System.out.print("\nEnter your choice : ");
+			option = Integer.parseInt(br.readLine());
+
+			switch (option) {
+			case 1:
+				System.out.print("Enter data to add in queue : ");
+				int data = Integer.parseInt(br.readLine());
+				d.enQueue(data);
+				break;
+
+			case 2:
+				int value = d.deQueue();
+				if (value == 0) {
+					System.out.println("\n Queue is EMPTY.\n");
+				} else {
+					System.out.println("Popped Element : " + value);
+				}
+				break;
+
+			case 3:
+				int val = d.peek();
+				if (val == 0) {
+					System.out.println("\n Queue is EMPTY.\n");
+				} else {
+					System.out.println("front Peek Element : " + val);
+				}
+				break;
+
+			case 4:
+				d.display();
+				break;
+
+			case 0:
+				if (d.eraseAll() == null) {
+					System.out.println("Linked List is clear...");
+				}
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+
+		}
+
+	}
+
+}

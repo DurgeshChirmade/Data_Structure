@@ -1,0 +1,456 @@
+package com.circular;
+
+public class Node {
+
+	private int data;
+	private Node next;
+
+	public Node() {
+		this.data = 0;
+		this.next = null;
+	}
+
+	public int getData() {
+		return data;
+	}
+
+	public void setData(int data) {
+		this.data = data;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+}
+
+
+package com.circular;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class circularSinglyLinkedList {
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public Node create(int n) throws Exception {
+
+		if (n <= 0) {
+			return null;
+		}
+
+		// first node/head node
+		Node first = new Node();
+
+		System.out.print("Enter Data : ");
+		int data = Integer.parseInt(br.readLine());
+
+		first.setData(data);
+		first.setNext(first);
+
+		// last node/next node
+		Node last = first;
+
+		for (int i = 2; i <= n; i++) {
+			System.out.print("Enter Data : ");
+			data = Integer.parseInt(br.readLine());
+
+			// temporary node
+			Node temp = new Node();
+			temp.setData(data);
+			temp.setNext(first);
+			last.setNext(temp);
+			last = temp;
+		}
+		return first;
+	}
+
+	public void display(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return;
+		}
+
+		Node temp = first;
+		do {
+			System.out.print(temp.getData());
+			temp = temp.getNext();
+			if (temp != first) {
+				System.out.print("=>");
+			}
+			
+		} while (temp != first);
+
+		System.out.println();
+	}
+
+	public Node eraseAll(Node first) {
+		if (first == null) {
+			return null;
+		}
+
+		Node temp = first.getNext(); // Move to the next node
+		first.setNext(null); // Break the circular link
+
+		while (temp != null && temp != first) { // Loop until all nodes are deleted
+			Node delNode = temp.getNext();
+			temp.setNext(null);
+			temp=delNode; // Remove reference for garbage collection
+		}
+		return null; // Return null since the list is deleted
+	}
+
+	public Node addAtStart(Node first) throws Exception {
+
+		Node newNode = new Node();
+
+		System.out.println("Enter Data at start : ");
+		int data = Integer.parseInt(br.readLine());
+
+		newNode.setData(data);
+
+		if (first == null) {
+			newNode.setNext(newNode);
+			return newNode;
+		}
+
+		Node temp;
+		for (temp = first; temp.getNext() != first; temp = temp.getNext())
+			;
+
+		newNode.setNext(first);
+		temp.setNext(newNode);
+		first = newNode;
+
+		return first;
+	}
+
+	public Node addAtEnd(Node first) throws Exception {
+
+		Node newNode = new Node();
+
+		System.out.print("Enter Data at the end : ");
+		int data = Integer.parseInt(br.readLine());
+
+		newNode.setData(data);
+
+		if (first == null) {
+			newNode.setNext(newNode);
+			first = newNode;
+			return first;
+		}
+
+		Node start;
+		for (start = first; start.getNext() != first; start = start.getNext())
+			;
+
+		start.setNext(newNode);
+		newNode.setNext(first);
+
+		return first;
+	}
+
+	// not complete fully
+	public Node addAtPosition(Node first, int pos) throws Exception {
+
+		Node newNode = new Node();
+
+		System.out.print("Enter data at " + pos + " to the linked List : ");
+		int data = Integer.parseInt(br.readLine());
+
+		newNode.setData(data);
+
+		// Insert at the first position
+		if (pos == 1) {
+			return addAtStart(first);
+		}
+
+		Node start = first;
+		int count = 1;
+		for (int i = 1; i < pos - 1 && start.getNext() != first; i++) {
+			start = start.getNext();
+			count++;
+		}
+
+		if (count < pos - 1) {
+			System.out.println("Invalid Position...");
+			return first;
+		}
+
+		newNode.setNext(start.getNext());
+		start.setNext(newNode);
+
+		return first;
+
+	}
+
+	// write addByValue here
+	public Node addByValue(Node first, int key) throws Exception {
+
+		if (first == null) {
+			System.out.println("Circular Linked List is empty.");
+			return null;
+		}
+
+		Node newNode = new Node();
+
+		System.out.print("Enter node at value " + key + " in circular linked list : ");
+		int data = Integer.parseInt(br.readLine());
+
+		newNode.setData(data);
+
+		Node current = first;
+		do {
+			if (current.getData() == key) {
+				newNode.setNext(current.getNext());
+				current.setNext(newNode);
+				return first;
+			}
+			current = current.getNext();
+		} while (current != first);
+
+		System.out.println("Value " + key + " not found in the list.");
+		return first;
+
+	}
+
+	public Node deleteAtStart(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return null;
+		}
+
+		Node temp = first;
+		System.out.println("Deleted Node : " + temp.getData());
+
+		Node start = null;
+		for (start = first; start.getNext() != first; start = start.getNext())
+			;
+
+		first = first.getNext();
+		start.setNext(first);
+		temp.setNext(null);
+
+		return first;
+	}
+
+	public Node deleteAtEnd(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return null;
+		}
+
+		if (first.getNext() == first) {
+			System.out.println("Deleted Node : " + first.getData());
+			first = null;
+			return first;
+		}
+
+		Node temp, slast = null;
+		for (temp = first; temp.getNext() != first; temp = temp.getNext()) {
+			slast = temp;
+		}
+
+		System.out.println("Deleted Node : " + temp.getData());
+		slast.setNext(first);
+		temp.setNext(null);
+
+		return first;
+	}
+
+	public Node deleteAtPosition(Node first, int pos) {
+		if (first == null || pos < 0) {
+			System.out.println("Linked List is empty already.");
+			return null;
+		}
+
+		if (pos == 1) {
+			System.out.println("Deleted Node : " + first.getData());
+			return deleteAtStart(first);
+		}
+
+		Node current = first;
+		Node prev = null;
+		int count = 1;
+
+		do {
+			prev = current;
+			current = current.getNext();
+			count++;
+		} while (current != first && count < pos);
+
+		if (count < pos) {
+			System.out.println("Invalid position.");
+			return first;
+		}
+
+		System.out.println("Deleted Node : " + current.getData());
+		prev.setNext(current.getNext());
+		current.setNext(null); // Disconnect the deleted node
+		return first;
+
+	}
+	
+	// ✅ Delete by value
+		public Node deleteByValue(Node first, int key) {
+			if (first == null) {
+				System.out.println("List is empty.");
+				return null;
+			}
+
+			Node current = first, prev = null;
+
+			do {
+				if (current.getData() == key) {
+					if (current == first) {
+						Node last = first;
+						while (last.getNext() != first) last = last.getNext();
+
+						if (first.getNext() == first) {
+							System.out.println("Deleted Node: " + first.getData());
+							return null;
+						}
+
+						first = first.getNext();
+						last.setNext(first);
+						System.out.println("Deleted Node: " + current.getData());
+						return first;
+					} else {
+						prev.setNext(current.getNext());
+						System.out.println("Deleted Node: " + current.getData());
+						return first;
+					}
+				}
+				prev = current;
+				current = current.getNext();
+			} while (current != first);
+
+			System.out.println("Value not found.");
+			return first;
+		}
+
+	public int countNode(Node first) {
+		if (first == null) {
+			System.out.println("Linked List is empty.");
+			return 0;
+		}
+
+		int sum = 1;
+		Node temp;
+		for (temp = first; temp.getNext() != first; temp = temp.getNext()) {
+			sum = sum + 1;
+		}
+		return sum;
+	}
+
+}
+
+package com.circular;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class CircularSinglyLinkedListMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		circularSinglyLinkedList dl = new circularSinglyLinkedList();
+
+		int choice = 0;
+		Node head = null;
+
+		while (true) {
+
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:Create Node" + "\n2:Add at start" + "\n3:Add at last" + "\n4:Add at value"
+					+ "\n5:Add at position" + "\n6:delete at start" + "\n7:delete at last" + "\n8:delete at position"
+					+ "\n9.delete by value" + "\n10:Display Linked List" + "\n11:Count of nodes" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("How many nodes you want to create : ");
+				int n = Integer.parseInt(br.readLine());
+				head = dl.create(n);
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				head = dl.addAtStart(head);
+				break;
+
+			case 3:
+				head = dl.addAtEnd(head);
+				break;
+
+			case 4:
+				System.out.print("Enter at which value you want to add new node : ");
+				int key = Integer.parseInt(br.readLine());
+
+				head = dl.addByValue(head, key);
+				break;
+
+			case 5:
+				System.out.print("Enter which position you want to add new node : ");
+				int pos = Integer.parseInt(br.readLine());
+
+				head = dl.addAtPosition(head, pos);
+				break;
+
+			case 6:
+				head = dl.deleteAtStart(head);
+				break;
+
+			case 7:
+				head = dl.deleteAtEnd(head);
+				break;
+
+			case 8:
+				System.out.print("Enter which position you want to delete node : ");
+				int p = Integer.parseInt(br.readLine());
+
+				head = dl.deleteAtPosition(head, p);
+				break;
+
+			case 9:
+				System.out.print("Enter which value you want to delete node : ");
+				int data = Integer.parseInt(br.readLine());
+
+				head = dl.deleteByValue(head, data);
+				break;
+
+			case 10:
+				System.out.println("Linked List Display : ");
+				dl.display(head);
+				break;
+
+			case 11:
+				int count = dl.countNode(head);
+				System.out.print("Count of Nodes : " + count);
+				break;
+
+			case 0:
+				head=dl.eraseAll(head);
+				if(head==null) {
+					System.out.println("Linked list is cleared.");
+					System.exit(0);
+				}
+				break;
+
+			default:
+				System.out.println("Invalid choice....");
+			}
+		}
+
+	}
+
+}

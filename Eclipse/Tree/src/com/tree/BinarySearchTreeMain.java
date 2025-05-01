@@ -1,0 +1,44 @@
+package com.tree;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class BinarySearchTreeMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		BinarySearchTree bs = new BinarySearchTree();
+
+		System.out.print("How many item you want to store : ");
+		int size = Integer.parseInt(br.readLine());
+
+		for (int i = 1; i <= size; i++) {
+			System.out.print("Enter Data : ");
+			int data = Integer.parseInt(br.readLine());
+			bs.bst(data);
+		}
+
+		System.out.print("\nPreorder : ");
+		bs.preorder(bs.getRoot());
+
+		System.out.print("\nInorder : ");
+		bs.inorder(bs.getRoot());
+
+		System.out.print("\nPostOrder : ");
+		bs.postorder(bs.getRoot());
+
+		System.out.println("\nDegree of each node : ");
+
+		bs.degree(bs.getRoot());
+
+		System.out.print("Which node you want to delete : ");
+		int value = Integer.parseInt(br.readLine());
+
+		bs.deleteNode(value);
+
+		bs.preorder(bs.getRoot());
+	}
+
+}

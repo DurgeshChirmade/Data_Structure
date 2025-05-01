@@ -1,0 +1,97 @@
+package com.hashing;
+
+import java.util.Arrays;
+
+public class HashingArray {
+
+	private int[] hashtable;
+	private int size;
+	private int count;
+
+	public int hashkey(int val) {
+		if (size <= 0) {
+			return -1;
+		}
+		return val % size;
+	}
+
+	public void createhash(int size) {
+		this.size = size;
+		this.hashtable = new int[size];
+		for (int i = 0; i < size; i++) {
+			hashtable[i] = -1;
+		}
+	}
+
+	public void addKey(int val) {
+		if (count >= size) {
+			System.out.println("HashTable is Full. Cannot add " + val);
+			return;
+		}
+		int key = hashkey(val);
+		if (hashtable[key] == -1) {
+			hashtable[key] = val;
+			System.out.println(val + " is added in array.");
+			count++;
+		} else {
+			int i;
+			for (i = (key + 1)%size; i != key && hashtable[i] != -1; i = (i + 1) % size)
+				;
+			if (i == key) {
+				System.out.println("HashTable is Full. Cannot add " + val);
+				return;
+			}
+			hashtable[i] = val;
+			System.out.println(val + " is added in array.");
+			count++;
+		}
+	}
+
+	public void search(int val) {
+		int key = hashkey(val);
+
+		if (hashtable[key] == val) {
+			System.out.println("Element " + val + " is found at index " + (key+1));
+			return;
+		} else {
+			int i;
+			for (i = (key + 1)%size; i != key && hashtable[i] != -1; i = (i + 1) % size) {
+				if (hashtable[i] == val) {
+					System.out.println("Element is found" + (i+1));
+					return;
+				}
+
+			}
+			System.out.println("Element is not found");
+		}
+	}
+
+	public void deleteKey(int val) {
+		if (size == 0) {
+			System.out.println("Hash Table is empty");
+			return;
+		}
+		int key = hashkey(val);
+
+		if (hashtable[key] == val) {
+			hashtable[key] = -1;
+			System.out.println("Element " + val + " deleted from index " + (key+1));
+			return;
+		} else {
+			int i;
+			for (i = key + 1; i != key && hashtable[i] != -1; i = (i + 1) % size) {
+				if (hashtable[i] == val) {
+					hashtable[i] = -1;
+					System.out.println("Element " + val + " deleted from index " + (i+1));
+					return;
+				}
+			}
+			System.out.println("Element " + val + " not found for deletion");
+		}
+	}
+
+	public void display() {
+		System.out.println(Arrays.toString(hashtable));
+//			System.out.println(" " + hashtable[i]);
+	}
+}

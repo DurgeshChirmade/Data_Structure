@@ -1,0 +1,227 @@
+package com.singly;
+
+public class Node {
+
+	private int data;
+	private Node next;
+
+	public Node() {
+		this.data = 0;
+		this.next = null;
+	}
+
+	public int getData() {
+		return data;
+	}
+
+	public void setData(int data) {
+		this.data = data;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+}
+
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class SinglyLinkedList {
+	
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	
+	public Node create() throws Exception {
+		
+		//first node
+		Node first = new Node();
+		
+		//Initialize the first node
+		System.out.print("Enter Data : ");
+		int data = Integer.parseInt(br.readLine());
+		
+		first.setData(data);
+		first.setNext(null);
+		
+		return first;
+		
+	}
+	
+	public void display(Node first) {
+		if(first==null) {
+			System.out.println("Linked List is empty.");
+            return;
+		}
+		
+		Node temp;
+		for(temp=first;temp!=null;temp=temp.getNext()) {
+			if(temp.getNext()==null) {
+				System.out.println(temp.getData());
+			}
+			else {
+				System.out.print(temp.getData()+" => ");
+			}
+		}
+	}
+	
+	public Node addAtStart(Node first) throws Exception {
+		
+		Node temp = new Node();
+		
+		System.out.print("Enter data at first position : ");
+		int data = Integer.parseInt(br.readLine());
+		
+		temp.setData(data);
+		temp.setNext(first);
+		
+		return temp;
+	}
+	
+	public Node addAtEnd(Node first) throws Exception {
+		
+		Node temp = new Node();
+		
+		System.out.print("Enter your data at last position : ");
+		int data = Integer.parseInt(br.readLine());
+		
+		temp.setData(data);
+		temp.setNext(null);
+		
+		// If the list is empty, return new node as the head
+		if(first==null) {
+            return temp;
+		}
+		
+		
+		Node start;
+		for(start=first;start.getNext()!=null;start=start.getNext()); //no code in loop only traverse s to the last node
+		
+		start.setNext(temp);
+		
+		return first;
+	}
+	
+	public Node addAtPosition(Node first,int pos) throws Exception {
+		
+		Node temp = new Node();
+		
+		System.out.print("Enter Data :");
+		int data = Integer.parseInt(br.readLine());
+		
+		temp.setData(data);
+		
+		// Case 1: Insert at the first position
+		if(pos==1) {
+			temp.setNext(first);
+			return temp; //new node become head
+		}
+		
+		Node start=first;
+		for(int i=0;i<pos-1 && start!=null;i++) {
+			start=start.getNext();
+		}
+		
+		//Invalid position (greater than list size)
+		if(start==null) {
+			System.out.println("Invalid Position...");
+			return first; //no changes in original list
+		}
+		
+		//Insert node at the desired position
+		temp.setNext(start.getNext());
+		start.setNext(temp);
+		
+		return first;
+	}
+	
+	public int countNodes(Node first) {
+		if(first==null) {
+			System.out.println("Linked List is empty.");
+            return 0;
+		}
+		
+		int sum=0;
+		Node temp;
+		for(temp=first;temp!=null;temp=temp.getNext()) {
+			sum=sum+1;
+		}
+		return sum;
+	}
+
+}
+
+
+package com.singly;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class SinglyMain {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		SinglyLinkedList sl = new SinglyLinkedList();
+
+		int choice = 0;
+		Node head = null;
+
+		while (true) {
+
+			System.out.println("\n----------------- MENU ------------------");
+			System.out.println("1:Create Node" + "\n2:Add at start" + "\n3:Add at last" + "\n4:Add at position"
+					+ "\n5:Display Linked List"+"\n6:Count of nodes" + "\n0:Exit");
+
+			System.out.print("Enter your choice :: ");
+			choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				head = sl.create();
+				System.out.println("\n New linked node is created...");
+				break;
+
+			case 2:
+				head = sl.addAtStart(head);
+				break;
+
+			case 3:
+				head = sl.addAtEnd(head);
+				break;
+
+			case 4:
+				System.out.print("Enter which position you want to add new node : ");
+				int pos = Integer.parseInt(br.readLine());
+
+				head = sl.addAtPosition(head, pos);
+				break;
+
+			case 5:
+				System.out.println("Linked List Display : ");
+				sl.display(head);
+				break;
+				
+			case 6:
+				int count = sl.countNodes(head);
+				System.out.print("Count of Nodes : "+count);
+				break;
+
+			case 0:
+				System.exit(0);
+
+			default:
+				System.out.println("Invalid choice....");
+			}
+		}
+
+	}
+
+}

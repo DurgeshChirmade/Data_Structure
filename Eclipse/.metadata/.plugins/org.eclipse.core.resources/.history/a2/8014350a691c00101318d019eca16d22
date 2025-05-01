@@ -1,0 +1,160 @@
+package com.linear;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class CircularQueue {
+
+	private int size;
+	private int[] que;
+	private int front;
+	private int rear;
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public CircularQueue() {
+		size = 0;
+		que = new int[size];
+		front = rear = -1;
+	}
+
+	public void initQueue() throws Exception {
+
+		System.out.print("Enter the size of queue : ");
+		size = Integer.parseInt(br.readLine());
+
+		this.que = new int[size];
+		front = rear = 0;
+	}
+
+	public boolean isEmpty() {
+		if (front == rear) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isFull() {
+		if ((rear + 1) % size == front) {
+			return true;
+		}
+		return false;
+	}
+
+	public void enQuque(int value) throws Exception {
+		if (isFull()) {
+			System.out.println("\n Queue is Full \n");
+		} else {
+			if (!isFull()) {
+				System.out.print("Enter Data to add in Queue : ");
+				int data = Integer.parseInt(br.readLine());
+
+				rear = (rear + 1) % size;
+
+				que[rear] = data;
+
+				System.out.println("\n Data is added successfully into Queue. \n");
+			}
+
+		}
+	}
+
+	public int deQueue() {
+		if (isEmpty()) {
+			System.out.println("\n Queue is Empty. \n");
+		} else {
+			if (!isEmpty()) {
+				front = (front + 1) % size;
+				return que[front];
+			}
+		}
+		return -1;
+	}
+
+	public int peek() {
+		if (isEmpty()) {
+			System.out.print("\n Queue is Empty. \n");
+		} else {
+			if (!isEmpty()) {
+				return que[front + 1];
+			}
+		}
+		return -1;
+	}
+
+	public void display() {
+		if (isEmpty()) {
+			System.out.println("Queue is Empty.");
+			return;
+		}
+
+		System.out.print("Queue Elements: ");
+		int i = (front + 1) % size;
+		while (i != (rear + 1) % size) {
+			System.out.print(que[i] + " ");
+			i = (i + 1) % size;
+		}
+		System.out.println();
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		CircularQueue cq = new CircularQueue();
+
+		int option, value;
+
+		while (true) {
+			System.out.println("\n************** MENU ***************");
+			System.out.println("\n1:Start" + "\n2:EnQueue" + "\n3:DeQueue" + "\n4:Peek" + "\n5:Display" + "\n0:EXIT");
+			System.out.print("\nEnter your choice : ");
+			option = Integer.parseInt(br.readLine());
+
+			switch (option) {
+			case 1:
+				cq.initQueue();
+				System.out.println("\nNew Stack instantiated.");
+				break;
+
+			case 2:
+				System.out.print("Enter your data : ");
+				value = Integer.parseInt(br.readLine());
+
+				cq.enQuque(value);
+				break;
+
+			case 3:
+				value = cq.deQueue();
+
+				if (value != -1) {
+					System.out.println("\nPopped : " + value);
+
+				}
+				break;
+
+			case 4:
+				value = cq.peek();
+
+				if (value != -1) {
+					System.out.println("\nPeek : " + value);
+
+				}
+				break;
+
+			case 5:
+				System.out.println("\n-------------------------------\n");
+				cq.display();
+				System.out.println("\n-------------------------------\n");
+				break;
+			case 0:
+				System.exit(0);
+			default:
+				System.out.println("Invalid choice....");
+				break;
+			}
+
+		}
+
+	}
+}

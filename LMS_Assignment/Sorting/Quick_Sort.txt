@@ -1,0 +1,78 @@
+package com.sort;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class QuickSort {
+
+	public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public static void accept(int arr[]) throws Exception {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print("Enter Data : ");
+			arr[i] = Integer.parseInt(br.readLine());
+		}
+	}
+
+	public static void display(int arr[]) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i]+" ");
+		}
+		System.out.println();
+	}
+
+	public static int partition(int arr[], int lb, int ub) {
+
+		int pivot = arr[lb];
+		int i = lb + 1;
+		int j = ub;
+
+		while (i <= j) {
+			while (i <= ub && arr[i] < pivot) {
+				i++;
+			}
+			while (arr[j] > pivot) {
+				j--;
+			}
+			if (i < j) {
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+		}
+		arr[lb] = arr[j];
+		arr[j] = pivot;
+
+		return j;
+	}
+
+	public static void quicksort(int arr[], int lb, int ub) {
+
+		if (lb < ub) {
+			int j = partition(arr, lb, ub);
+			quicksort(arr, lb, j - 1);
+			quicksort(arr, j + 1, ub);
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		System.out.print("How many elements you want to store : ");
+		int size = Integer.parseInt(br.readLine());
+
+		int arr[] = new int[size];
+
+		accept(arr);
+
+		System.out.print("Before Sort : ");
+
+		display(arr);
+
+		quicksort(arr, 0, size - 1);
+
+		System.out.print("After Sort : ");
+
+		display(arr);
+	}
+
+}

@@ -1,0 +1,54 @@
+package com.hashing;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class HashPack {
+
+	public static void main(String[] args) throws Exception {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		System.out.print("Enter size of array : ");
+		int size = Integer.parseInt(br.readLine());
+
+		HashingArray ha = new HashingArray();
+
+		ha.createhash(size);
+
+		while (true) {
+			System.out.println("\n1.Add" + "\n2.Search" + "\n3.display" + "\n4.Delete" + "\n5.Exit");
+
+			System.out.print("Enter your choice : ");
+			int choice = Integer.parseInt(br.readLine());
+
+			switch (choice) {
+			case 1:
+				System.out.print("Enter value : ");
+				int value = Integer.parseInt(br.readLine());
+				ha.addKey(value);
+				break;
+
+			case 2:
+				System.out.print("Enter search value : ");
+				value = Integer.parseInt(br.readLine());
+				ha.search(value);
+				break;
+
+			case 3:
+				System.out.print("Hash Array : ");
+				ha.display();
+				break;
+
+			case 5:
+				System.out.println("Code is terminated...");
+				System.exit(0);
+
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + choice);
+			}
+		}
+
+	}
+
+}

@@ -1,0 +1,93 @@
+package com.tree;
+
+public class BinarySearchTree {
+
+	private Node root;
+
+	public BinarySearchTree() {
+		root = null;
+	}
+
+	public Node getRoot() {
+		return root;
+	}
+
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+
+	public void bst(int data) {
+		Node newNode = new Node();
+
+		newNode.setData(data);
+		newNode.setLeft(null);
+		newNode.setRight(null);
+
+		Node temp1 = null;
+		Node temp2 = null;
+
+		if (root == null) {
+			root = newNode;
+		} else {
+			temp1 = root;
+
+			while (temp1 != null) {
+				temp2 = temp1;
+
+				if (data < temp1.getData()) {
+					temp1 = temp1.getLeft();
+				} else {
+					temp1 = temp1.getRight();
+				}
+
+			}
+
+			if (data < temp2.getData()) {
+				temp2.setLeft(newNode);
+			} else {
+				temp2.setRight(newNode);
+			}
+		}
+	}
+
+	public void preorder(Node root) {
+		if (root != null) {
+			System.out.print(root.getData() + ",");
+			preorder(root.getLeft());
+			preorder(root.getRight());
+
+		}
+	}
+
+	public void inorder(Node root) {
+		if (root != null) {
+			inorder(root.getLeft());
+			System.out.print(root.getData() + ",");
+			inorder(root.getRight());
+		}
+	}
+
+	public void postorder(Node root) {
+		if (root != null) {
+			postorder(root.getLeft());
+			postorder(root.getRight());
+			System.out.print(root.getData() + ",");
+		}
+	}
+
+	public void degree(Node temp) {
+		while (temp != null) {
+			int degree = 0;
+			if (temp.getLeft() != null) {
+				degree++;
+			}
+			if (temp.getRight() != null) {
+				degree++;
+			}
+			System.out.print("\nDegree of node : " + temp.getData() + " : " + degree);
+//			degree(temp.getLeft());
+//			degree(temp.getRight());
+		}
+	}
+
+}
